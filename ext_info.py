@@ -4,8 +4,8 @@ from collections import defaultdict
 
 def print_result():
   folder_dict = get_folder_dict()
-  for category in folder_dict:
-    print("{} \t {} \t {}".format(category, folder_dict[category]['file_number'],folder_dict[category]['total_size']))
+  for category, info in sorted(folder_dict.items()):
+    print("{} \t {} \t {}".format(category, info['file_number'],info['total_size']))
 
 
 
@@ -22,8 +22,8 @@ def get_folder_dict():
   for item in folder.iterdir():
     if item.is_file() and not item.is_dir():
       if item.suffix:
-        folder_dict[item.suffix]['file_number'] += 1
-        folder_dict[item.suffix]['total_size'] += item.stat().st_size
+        folder_dict[item.suffix[1:]]['file_number'] += 1
+        folder_dict[item.suffix[1:]]['total_size'] += item.stat().st_size
       else:
         folder_dict['.']['file_number'] += 1
         folder_dict['.']['total_size'] += item.stat().st_size
